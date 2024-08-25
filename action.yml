@@ -1,0 +1,28 @@
+name: remove-bloatware
+description: Increase available disk space by removing unnecessary tools
+branding:
+  icon: trash
+  color: green
+inputs:
+  docker:
+    type: boolean
+    description: Keep Docker
+  lang:
+    type: choice
+    description: Keep target language
+    options:
+      - dotnet
+      - java
+      - rust
+runs:
+  using: composite
+  steps:
+    - name: Linux
+      shell: bash
+      run: |
+        if [[ "${{ runner.os }}" == Linux ]]; then
+          ${{ github.action_path }}/ubuntu.sh
+        fi
+      env:
+        INPUT_DOCKER: ${{ inputs.docker }}
+        INPUT_LANG: ${{ inputs.lang }}
